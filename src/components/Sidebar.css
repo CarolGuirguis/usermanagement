@@ -1,0 +1,24 @@
+.color{
+    background-color: white;
+    color: black;
+}
+.datetime{
+    font-size: small;
+    color: lightslategray;
+}
+.marginleft{
+    margin-left: 45rem !important;
+    
+}
+.navname{
+    font-weight: 500 !important;
+    color: black;
+}
+.navcircle{
+    border-radius: 50%;
+    background-color: lightblue;
+    margin-left: 0.3rem;
+    color: black;
+    
+    
+}
