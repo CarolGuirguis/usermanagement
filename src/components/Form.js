@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Formik, Field, Form } from 'formik';
+import { useDispatch, useSelector, connect } from "react-redux";
+import { addUser } from "../store/users/users.actions";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-const Example = () => (
-  <div>
-    
+export default function Example () {
+  const dispatch = useDispatch();
+  
+     return (
+      <div>
     <Formik
       initialValues={{
         firstName: '',
@@ -15,7 +18,8 @@ const Example = () => (
       }}
       onSubmit={async (values) => {
         await sleep(500);
-        alert(JSON.stringify(values, null, 2));
+        dispatch(addUser(JSON.stringify(values,null,2)));
+        console.log();
       }}
     >
       {({ isSubmitting }) => (
@@ -39,6 +43,6 @@ const Example = () => (
       )}
     </Formik>
   </div>
-);
+ );}
 
-export default Example;
+

@@ -1,7 +1,11 @@
 import apiClient from "../../utils/apiClient";
-const RESOURCE = "users";
+
+const RESOURCE = "user";
 
 const fetchUsers = () => {
     return apiClient.get(RESOURCE);
   };
-export default { fetchUsers};
+  const addUser = (data) => {
+    return apiClient.post(`${RESOURCE}/create/`,data);
+  };
+export default { fetchUsers,addUser};

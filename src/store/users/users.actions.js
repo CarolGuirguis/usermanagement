@@ -13,9 +13,23 @@ export const fetchUsersStart = () => ({
     type: UsersActionTypes.FETCH_USERS_FAILURE,
     payload: errorMessage,
   });
+  export const addUserStart = (payload) => ({
+    type: UsersActionTypes.ADD_USER_START,
+    payload,
+  });
+  
+  export const addUserSuccess = (post) => ({
+    type: UsersActionTypes.ADD_USER_SUCCESS,
+    payload: post,
+  });
+  
+  export const addUserFailure = (errorMessage) => ({
+    type: UsersActionTypes.ADD_USER_FAILURE,
+    payload: errorMessage,
+  });
   export const fetchUsers = () => async (dispatch) => {
     dispatch(fetchUsersStart());
-  
+
     try {
       const response = await usersService.fetchUsers();
       console.log(response.data);
@@ -24,5 +38,19 @@ export const fetchUsersStart = () => ({
     } catch (error) {
       console.log(error.message);
       dispatch(fetchUsersFailure(error.message));
+    }
+  };
+
+  export const addUser = (payload) => async (dispatch) => {
+    dispatch(addUserStart(payload));
+
+    try {
+      const response = await usersService.addUser(payload);
+      console.log(response.data);
+      
+      dispatch(addUserSuccess(response.data));
+    } catch (error) {
+      console.log(error.message);
+      dispatch(addUserFailure(error.message));
     }
   };

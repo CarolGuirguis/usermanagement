@@ -2,6 +2,9 @@
     background-color: white;
     color: black;
 }
+.color2{
+    color:white
+}
 .datetime{
     font-size: small;
     color: lightslategray;
@@ -21,4 +24,12 @@
     color: black;
     
     
+}
+.left{
+    text-align: left;
+    background-color: #050e2d;
+    color: white;
+}
+.coloring{
+    color: white;
 }

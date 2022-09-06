@@ -4,7 +4,8 @@ export const updateItemDetails = (item_list, itemToUpdate) => {
   return item_list;
 };
 
-export const addNewItem = (itemList, itemToAdd) => {
+export const addNewUser = (itemList, itemToAdd) => {
+  
   itemList.push(itemToAdd);
   return itemList;
 };
