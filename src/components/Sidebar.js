@@ -143,7 +143,7 @@ export default function PersistentDrawerLeft() {
     setOpen2(!isopen2);
   };
   const handleClick3 = () => {
-    setOpen2(!isopen3);
+    setOpen3(!isopen3);
   };
   const handleDrawerOpen = () => {
     setOpen(true);
