@@ -27,8 +27,8 @@
 }
 .left{
     text-align: left;
-    background-color: #050e2d;
-    color: white;
+    background-color: #050e2d !important;
+    color: white !important;
 }
 .coloring{
     color: white;
