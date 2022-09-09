@@ -15,11 +15,16 @@
   margin-left: 2rem;
   
 }
+
 .button{
-  margin-left: 60rem;
+  margin-left: 57rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
   
+  
+}
+.buttonsize{
+  width: 10rem;
 }
 .addingarea{
   display: flex;

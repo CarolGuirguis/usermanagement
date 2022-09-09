@@ -1,0 +1,28 @@
+.header
+{
+    background-color: #050e2d;
+    color:white;
+  
+   height: 3rem;
+    
+}
+.headertext{
+margin-top:0.8rem ;
+font-size: large;
+
+}
+.buttonf{
+    border: none;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+   
+}
+.cancel{
+    border: 1px solid gray !important;
+}
+.footer{
+    text-align: right;
+}
+.bold{
+    font-weight: bolder;
+}
