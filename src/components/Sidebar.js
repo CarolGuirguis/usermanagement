@@ -16,7 +16,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
+import {DebounceInput} from 'react-debounce-input';
 import './Sidebar.css';
 
 import { FaRegQuestionCircle } from "react-icons/fa";
@@ -32,7 +32,7 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
-
+import { useEffect } from 'react';
 
 const Search = styled('div')(({ theme }) => ({
 
@@ -134,23 +134,57 @@ export default function PersistentDrawerLeft() {
   const [isopen, setOpen1] = React.useState(false);
   const [isopen2, setOpen2] = React.useState(false);
   const [isopen3, setOpen3] = React.useState(false);
-  
+  var original = [
+    { field: 'ATM Settings', subitems: ['Settings'],open:false},
+    { field: 'Business Setup',  subitems: ['Set up'],open:false},
+    { field: 'User Management',  subitems: ['Users','Profiles','Groups'],open:false},
+    { field: 'License Management', subitems: [] }
+  ];
+  const [items,setItems]=React.useState(original);
 
-  const handleClick = () => {
-    setOpen1(!isopen);
+
+  const handleClick = (field) => {
+    for (let i = 0; i < items.length; i++) {
+      if(items[i].field===field){
+      items[i].open=!items[i].open;
+      }
+  }
+  setItems([...items]);
   };
-  const handleClick2 = () => {
-    setOpen2(!isopen2);
-  };
-  const handleClick3 = () => {
-    setOpen3(!isopen3);
-  };
+ 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleChange=(e)=>{
+    original = [
+      { field: 'ATM Settings', subitems: ['Settings'],open:false},
+      { field: 'Business Setup',  subitems: ['Set up'],open:false},
+      { field: 'User Management',  subitems: ['Users','Profiles','Groups'],open:false},
+      { field: 'License Management', subitems: [] }
+    ];
+   
+    
+    if(e.target.value.trim().length !== 0){
+        original.map(function(el){
+        el.subitems = el.subitems.filter(function(x){ return x.toLowerCase().includes(e.target.value.toLowerCase()) });
+       if(el.subitems.length>0){
+        el.open=true;
+       }
+       else{
+        el.open=false;
+       }
+       
+       return el;
+    });
+    
+      }
+     
+    setItems([...original])
+    
   };
 
   return (
@@ -209,15 +243,13 @@ export default function PersistentDrawerLeft() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
+       
+            <DebounceInput
               placeholder="Quick Access"
-              inputProps={{ 'aria-label': 'search' }}
+              debounceTimeout={800}
+              onChange={handleChange}
             />
-          </Search>
+         
           <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: '#050e2d',color:'white' }}
       component="nav"
@@ -230,62 +262,41 @@ export default function PersistentDrawerLeft() {
             </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItemButton>
-      
-    <ListSubheader component="div" id="nested-list-subheader" className='left'>
+      <ListSubheader component="div" id="nested-list-subheader" className='left'>
           Settings
         </ListSubheader>
-      <ListItemButton onClick={handleClick}>
-        <ListItemText primary="ATM Settings" />
-        {isopen ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={isopen} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
+      {items.map(item => {
+        if(item.subitems.length>0){
+          
+         return (  
+          <>
+        <ListItemButton key={item.field} onClick={() => handleClick(item.field)}>
+         <ListItemText primary={item.field} />
+        {item.open ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+        <Collapse in={item.open} timeout="auto" unmountOnExit>
+        
+        {item.subitems.map(i =>
+          <List component="div" disablePadding>
           <ListItemButton sx={{ pl: 4 }}>
-            
-            <ListItemText primary="Starred" />
+          <ListItemText primary={i}/>
           </ListItemButton>
-        </List>
-      </Collapse>
-      <ListItemButton onClick={handleClick2}>
-        <ListItemText primary="Business Setup" />
-        {isopen2 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={isopen2} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-      <ListItemButton onClick={handleClick3}>
-        <ListItemText primary="User Management" />
-        {isopen3 ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={isopen3} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            
-            <ListItemText primary="Users" />
-          </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            
-            <ListItemText primary="Profiles" />
-          </ListItemButton>
-        </List>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            
-            <ListItemText primary="Groups" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-      <ListItemButton>
-        <ListItemText primary="License Management" />
-      </ListItemButton>
-      
+          </List>
+          )}
+         
+        </Collapse>
+        </>
+        )
+       }
+      else {
+        return(
+          <ListItemButton>
+          <ListItemText key={item.field}  primary={item.field} />
+        </ListItemButton>
+      )
+        
+      }}
+       )}
     </List>
         <Divider />
     
